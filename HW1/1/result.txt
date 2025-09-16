@@ -14,3 +14,7 @@ df -h | awk '{print $1, $4, $6}' | sort -k2 -h > disk_space_usage.txt
 # grep для фильтрации строк, содержащих слово WARNING, в этих файлах, снова grep для поиска в этих строках IP-адресов в формате XXX.XXX.XXX.XXX,
 # sort -u для отбора уникальных адресов (и их сортирорвки) и записывает всё в файл unique_warnings_ips.txt
 find /var/log -type f -name "*.log" -exec grep "WARNING" {} ';' | grep -oE "([0-9]{1,3}\.){3}[0-9]{1,3}" | sort -u > unique_warnings_ips.txt
+
+# Конвейер 5: использует du для нахождения всех поддиректорий в /home, awk для отбра директорий с размером больше 100Мб и исключения самой директории /home,
+# sort для сортировки по результатов по убыванию по размеру директории, head для вывода 5 самых больших поддиректорий и записывает всё в файл largest_directories.txt
+du --max-depth=1 /home | awk '$1 > 102400 && $2 != "/home"' | sort -k1 -nr | head -n 5 > largest_directories.txt
