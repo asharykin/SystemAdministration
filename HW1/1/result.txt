@@ -8,7 +8,7 @@ find ~ -maxdepth 1 -type f -name "*.txt" -size 1M | xargs cat | wc -l
 
 # Конвейер 3: использует df для мониторинга использования дискового пространства, awk для вывода столбцов Filesystem, Avail, Mounted on,
 # sort для сортировки результатов по возрастанию Avail и записывает всё в файл disk_space_usage.txt
-df -h | awk '{print $1, $4, $6}' | sort -k2 -h > disk_space_usage.txt
+df -h | awk '{print $1, $4, $NF}' | sort -k2 -h > disk_space_usage.txt
 
 # Конвейер 4: использует find для нахождения файлов с расширением .log в директории /var/log (рекурсивно),
 # grep для фильтрации строк, содержащих слово WARNING, в этих файлах, снова grep для поиска в этих строках IP-адресов в формате XXX.XXX.XXX.XXX,
